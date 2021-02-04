@@ -1,0 +1,19 @@
+{% extends "layout/layout.html" %}
+
+{% block content %}
+<p></p>
+<p></p>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="usuarios">Crear Usuario</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+    </div>
+</nav>
+
+<form method="POST">
+    {% include "layout/form_snippets.html" %}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success dashboard">Guardar</button>
+</form>
+
+{% endblock %}

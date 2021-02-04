@@ -1,0 +1,76 @@
+{% extends "layout/layout.html" %}
+
+{% block content %}
+
+
+<p></p>
+<p></p>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="usuarios">Usuarios</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="crearUsuario">Crear Usuario</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Rut</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{usuario.rut}}</td>
+            <td>{{usuario.nombre}}</td>
+            <td>{{usuario.apePat}} {{usuarios.apeMat}}</td>
+            <td>{{usuario.correo}}</td>
+            <td>{{usuario.estado}}</td>
+            {% if usuario.estado == 'Activo' %}
+            <td class="text-center">
+                <a href="desactivar_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Desactivar</button>
+                </a>
+                <a href="editar_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Editar</button>
+                </a>
+                <a href="restablecerContrasena_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Restablecer Clave</button>
+                </a>
+            </td>
+            {% else %}
+            <td class="text-center">
+                <a href="activar_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Activar</button>
+                </a>
+                <a href="editar_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Editar</button>
+                </a>
+                <a href="restablecerContrasena_usuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-primary">Restablecer Clave</button>
+                </a>
+            </td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div>Cantidad de Usuarios: {{num_usuarios}}</div>
+<div>Cantidad de Usuarios Activos: {{num_usuarios_activos}}</div>
+
+
+{% endblock %}
