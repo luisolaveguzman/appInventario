@@ -42,8 +42,14 @@ class Usuarios(AbstractBaseUser):
     apellidos = models.CharField('Apellidos', max_length=100)
     correo = models.CharField('Correo electronico', unique=True, max_length=100)
     estado = models.BooleanField(default=True)
-    user_administrador = models.BooleanField(default=False)
+    user_administrador = models.BooleanField('Usuario Administrador', default=False)
+    fecha_creacion = models.DateField('Fecha creación', auto_now=True, auto_now_add=False, null=True)
     objects = UsuarioManager()
+    
+    class Meta:
+        verbose_name='Usuario'
+        verbose_name_plural='Usuarios'
+        ordering = ['id']
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['rut', 'nombres', 'apellidos', 'correo']

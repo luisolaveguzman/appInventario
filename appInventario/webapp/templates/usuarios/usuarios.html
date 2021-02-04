@@ -22,10 +22,12 @@
         <thead>
         <tr>
             <th>Rut</th>
-            <th>Nombre</th>
+            <th>Username</th>
+            <th>Nombres</th>
             <th>Apellidos</th>
             <th>Correo</th>
             <th>Estado</th>
+            <th>Tipo Usuario</th>
             <th class="text-center">Acciones</th>
         </tr>
         </thead>
@@ -33,11 +35,21 @@
         {% for usuario in usuarios %}
         <tr>
             <td>{{usuario.rut}}</td>
-            <td>{{usuario.nombre}}</td>
-            <td>{{usuario.apePat}} {{usuarios.apeMat}}</td>
+            <td>{{usuario.username}}</td>
+            <td>{{usuario.nombres}} {{usuarios.apeMat}}</td>
+            <td>{{usuario.apellidos}}</td>
             <td>{{usuario.correo}}</td>
-            <td>{{usuario.estado}}</td>
-            {% if usuario.estado == 'Activo' %}
+            {% if usuario.estado == True %}
+                <td>Activo</td>
+            {% else %}
+                <td>Bloqueado</td>
+            {% endif %}
+            {% if usuario.user_administrador == True %}
+                <td>Admin</td>
+            {% else %}
+                <td>User</td>
+            {% endif %}
+            {% if usuario.estado == True %}
             <td class="text-center">
                 <a href="desactivar_usuario/{{usuario.id}}">
                     <button type="button" class="btn btn-primary">Desactivar</button>
@@ -71,6 +83,7 @@
 
 <div>Cantidad de Usuarios: {{num_usuarios}}</div>
 <div>Cantidad de Usuarios Activos: {{num_usuarios_activos}}</div>
+<div>Cantidad de Usuarios Activos: {{num_usuarios_bloqueados}}</div>
 
 
 {% endblock %}
