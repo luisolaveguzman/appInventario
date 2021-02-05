@@ -59,9 +59,8 @@
             {% endif %}
             {% if usuario.estado == True %}
             <td class="text-center">
-                <a href="cambiarEstadoUsuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-danger">Desactivar</button>
-                </a>
+                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('cambiarEstadoUsuario/{{usuario.id}}')">Desactivar</button>
+
                 <a href="editarUsuario/{{usuario.id}}">
                     <button type="button" class="btn btn-warning">Editar</button>
                 </a>
@@ -87,5 +86,18 @@
 <div>Cantidad de Usuarios Activos: {{num_usuarios_activos}}</div>
 <div>Cantidad de Usuarios Activos: {{num_usuarios_bloqueados}}</div>
 
+<div class="modal fade" id="cambiarEstado" role="dialog"></div>
 
 {% endblock %}
+{% block extrajs %}
+
+<script type="text/javascript">
+    var $ = jQuery.noConflict();
+    function abrir_modal_cambiarEstado(url){
+        $('#cambiarEstado').load(url, function (){
+            $(this).modal('show');
+        });
+    }
+</script>
+
+{% endblock extrajs %}
