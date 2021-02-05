@@ -1,0 +1,15 @@
+{% extends "layout/layout.html" %}
+
+{% block content %}
+<p></p>
+<p></p>
+
+<p><h4>Editar usuario <strong>{{usuario.correo}}</strong></h4></p>
+
+<form method="POST">
+    {% include "layout/form_snippets.html" %}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success dashboard">Guardar</button>
+</form>
+
+{% endblock %}

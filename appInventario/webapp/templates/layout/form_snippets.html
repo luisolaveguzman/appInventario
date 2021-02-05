@@ -1,9 +1,13 @@
 {% for field in formaUsuario %}
+{% if field.name != 'estado' %}
 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" style="margin-bottom: 5px">
     {{ field.errors }}
     {{ field.label_tag }}
     {{ field }}
     <p></p>
 </div>
+{% else %}
+
+{% endif %}
+
 {% endfor %}
-{{usuario.password}}

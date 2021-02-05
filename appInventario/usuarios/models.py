@@ -37,7 +37,7 @@ class UsuarioManager(BaseUserManager):
 # Create your models here.
 class Usuarios(AbstractBaseUser):
     rut = models.CharField('Rut de usuario', unique=True, max_length=20)
-    username = models.CharField('Cuenta de usuario', unique=True, max_length=100)
+    username = models.CharField('Usuario', unique=True, max_length=100)
     nombres = models.CharField('Nombres', max_length=100)
     apellidos = models.CharField('Apellidos', max_length=100)
     correo = models.CharField('Correo electronico', unique=True, max_length=100)

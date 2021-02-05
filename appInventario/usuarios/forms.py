@@ -31,3 +31,11 @@ class createUserForm(UserCreationForm):
             'correo': EmailInput(attrs={'type': 'email', 'placeholder': 'tuCorreo@mail.cl'}),
             'rut': TextInput(attrs={'placeholder': 'Ejemplo: 12345678-8'})
         }
+
+class formResetPassword(UserCreationForm):
+    class Meta:
+        model = Usuarios
+        fields = (
+            'password1',
+            'password2',
+        )

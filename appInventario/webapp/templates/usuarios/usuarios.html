@@ -2,20 +2,28 @@
 
 {% block content %}
 
-
-<p></p>
-<p></p>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="usuarios">Usuarios</a>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="crearUsuario">Crear Usuario</a>
+        <ul class="navbar-nav">
+            <!-- ml-auto ajusta a la derecha-->
+            <li class="nav-item active">
+                <a class="nav-link" href="/"><strong>Tablero</strong></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="usuarios">Listado de Usuarios</a>
+            </li>
+
         </ul>
     </div>
+    <form method="POST" action="/usuarios" class="form-inline"> {% csrf_token %}
+        <div class="input-group">
+            <input type="text" name="buscar" class="form-control" placeholder="Buscar..." aria-label="Username"
+                   aria-describedby="basic-addon1">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></i></button>
+        </div>
+    </form>
 </nav>
+
 
 <div>
     <table class="table table-bordered">
@@ -40,37 +48,31 @@
             <td>{{usuario.apellidos}}</td>
             <td>{{usuario.correo}}</td>
             {% if usuario.estado == True %}
-                <td>Activo</td>
+            <td>Activo</td>
             {% else %}
-                <td>Bloqueado</td>
+            <td>Bloqueado</td>
             {% endif %}
             {% if usuario.user_administrador == True %}
-                <td>Admin</td>
+            <td>Admin</td>
             {% else %}
-                <td>User</td>
+            <td>User</td>
             {% endif %}
             {% if usuario.estado == True %}
             <td class="text-center">
-                <a href="desactivar_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Desactivar</button>
+                <a href="cambiarEstadoUsuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-danger">Desactivar</button>
                 </a>
-                <a href="editar_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Editar</button>
+                <a href="editarUsuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-warning">Editar</button>
                 </a>
-                <a href="restablecerContrasena_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Restablecer Clave</button>
+                <a href="cambiarClave/{{usuario.id}}">
+                    <button type="button" class="btn btn-info">Restablecer Clave</button>
                 </a>
             </td>
             {% else %}
             <td class="text-center">
-                <a href="activar_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Activar</button>
-                </a>
-                <a href="editar_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Editar</button>
-                </a>
-                <a href="restablecerContrasena_usuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-primary">Restablecer Clave</button>
+                <a href="cambiarEstadoUsuario/{{usuario.id}}">
+                    <button type="button" class="btn btn-danger">Activar</button>
                 </a>
             </td>
             {% endif %}

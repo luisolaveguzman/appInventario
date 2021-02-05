@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from usuarios.views import usuarios, crearUsuario
+from usuarios.views import usuarios, crearUsuario, editarUsuario, cambiarEstadoUsuario, cambiarClave
 from webapp.views import tablero
 
 urlpatterns = [
@@ -24,4 +24,7 @@ urlpatterns = [
     path('', tablero, name='tablero'),
     path('usuarios', usuarios, name='usuarios'),
     path('crearUsuario', crearUsuario, name='crearUsuario'),
+    path('editarUsuario/<int:id>', editarUsuario, name='editarUsuario'),
+    path('cambiarEstadoUsuario/<int:id>', cambiarEstadoUsuario, name='cambiarEstadoUsuario'),
+    path('cambiarClave/<int:id>', cambiarClave, name='cambiarClave'),
 ]
