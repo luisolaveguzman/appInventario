@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from usuarios.views import usuarios, crearUsuario, editarUsuario, cambiarEstadoUsuario, cambiarClave
-from webapp.views import tablero
+from usuarios.views import crearUsuario, editarUsuario, cambiarEstadoUsuario, cambiarClave, ListUsuarios
+from webapp.views import TableroView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', tablero, name='tablero'),
-    path('usuarios', usuarios, name='usuarios'),
+    #path('', tablero, name='tablero'),
+    path('', TableroView.as_view(), name='tablero'),
+    #path('usuarios', usuarios, name='usuarios'),
+    path('usuarios', ListUsuarios.as_view(), name='usuarios'),
     path('crearUsuario', crearUsuario, name='crearUsuario'),
     path('editarUsuario/<int:id>', editarUsuario, name='editarUsuario'),
     path('cambiarEstadoUsuario/<int:id>', cambiarEstadoUsuario, name='cambiarEstadoUsuario'),

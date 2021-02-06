@@ -5,7 +5,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <!-- ml-auto ajusta a la derecha-->
             <li class="nav-item active">
                 <a class="nav-link" href="/"><strong>Tablero</strong></a>
             </li>
@@ -13,7 +12,7 @@
                 <a class="nav-link" href="/usuarios">Listado de Usuarios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link btn" onclick="abrir_modal_crearLibro('/crearUsuario')">Crear Usuarios</a>
+                <a class="nav-link btn" onclick="abrir_modal_crearUsuario('/crearUsuario')">Crear Usuarios</a>
             </li>
         </ul>
     </div>
@@ -42,7 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for usuario in usuarios %}
+        {% for usuario in listUsuarios %}
         <tr>
             <td>{{usuario.rut}}</td>
             <td>{{usuario.username}}</td>
@@ -64,14 +63,6 @@
                 <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('/cambiarEstadoUsuario/{{usuario.id}}')">Desactivar</button>
                 <button class="btn btn-warning" onclick="abrir_modal_editar('/editarUsuario/{{usuario.id}}')">Editar</button>
                 <button class="btn btn-info" onclick="abrir_modal_resetpass('/cambiarClave/{{usuario.id}}')">Cambiar Clave</button>
-            <!-- botones originales
-                <a href="editarUsuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-warning">Editar</button>
-                </a>
-                <a href="cambiarClave/{{usuario.id}}">
-                    <button type="button" class="btn btn-info">Restablecer Clave</button>
-                </a>
-                -->
             </td>
             {% else %}
             <td class="text-center">
@@ -130,7 +121,7 @@
         });
     }
 
-     function abrir_modal_crearLibro(url){
+     function abrir_modal_crearUsuario(url){
         $('#ventanaModal').load(url, function (){
             $(this).modal('show');
         });

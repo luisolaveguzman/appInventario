@@ -3,41 +3,33 @@ from builtins import object
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView
 
 # Create your views here.
 from usuarios.forms import UsuarioForm, createUserForm, formResetPassword
 from usuarios.models import Usuarios
 
-class ListUsuarios(ListView):
-    model = Usuarios
-    template_name = 'usuarios/usuarios.html'
-    context_object_name = 'listUsuarios'
-    queryset = Usuarios.objects.order_by('id')
-
-
-#def usuarios(request):
- #   num_usuarios = Usuarios.objects.count()
-  #  num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
-    #  num_usuarios_bloqueados = Usuarios.objects.filter(estado__icontains=False).count()
-    #queryset = request.POST.get('buscar')
-    #if queryset:
-        #    usuarios = Usuarios.objects.filter(
-        #    Q(rut__icontains=queryset)|
-        #    Q(username__icontains=queryset)|
-        #    Q(nombres__icontains=queryset)|
-        #    Q(apellidos__icontains=queryset)|
-        #    Q(correo__icontains=queryset)
-        #)
-        #else:
-        #usuarios = Usuarios.objects.order_by('id')
+def usuarios(request):
+    num_usuarios = Usuarios.objects.count()
+    num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
+    num_usuarios_bloqueados = Usuarios.objects.filter(estado__icontains=False).count()
+    queryset = request.POST.get('buscar')
+    if queryset:
+        usuarios = Usuarios.objects.filter(
+            Q(rut__icontains=queryset)|
+            Q(username__icontains=queryset)|
+            Q(nombres__icontains=queryset)|
+            Q(apellidos__icontains=queryset)|
+            Q(correo__icontains=queryset)
+        )
+    else:
+        usuarios = Usuarios.objects.order_by('id')
 
     #paginador
-    #paginador = Paginator(usuarios, 10)
-    #page = request.GET.get('page')
-    #usuarios = paginador.get_page(page)
+    paginador = Paginator(usuarios, 10)
+    page = request.GET.get('page')
+    usuarios = paginador.get_page(page)
 
-    #return render(request, 'usuarios/usuarios.html', {'usuarios':usuarios, 'num_usuarios':num_usuarios, 'num_usuarios_activos':num_usuarios_activos, 'num_usuarios_bloqueados':num_usuarios_bloqueados })
+    return render(request, 'usuarios/usuarios.html', {'usuarios':usuarios, 'num_usuarios':num_usuarios, 'num_usuarios_activos':num_usuarios_activos, 'num_usuarios_bloqueados':num_usuarios_bloqueados })
 
 
 def crearUsuario(request):
