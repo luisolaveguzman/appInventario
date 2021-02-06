@@ -5,9 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <!--
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet"/>
+
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
 
     {% load static %}
@@ -19,74 +22,73 @@
 
 </head>
 <body>
-    <div class="wrapper">
-        <!-- Menu Lateral -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h4>Gestión de Inventario</h4>
-                <strong>GI</strong>
-            </div>
+<div class="wrapper">
+    <!-- Menu Lateral -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h4>Gestión de Inventario</h4>
+            <strong>GI</strong>
+        </div>
 
-            <ul class="list-unstyled components">
-                <li class="active">
-                    <a href="/"><i class="fab fa-flipboard"></i><span>&nbsp;&nbsp;Tablero</span></a>
-                </li>
-                <li>
-                    <a href="#pageProducto" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                            class="fas fa-boxes"></i><span>&nbsp;&nbsp;Productos</span></a>
-                    <ul class="collapse list-unstyled" id="pageProducto">
-                        <li>
-                            <a href="#">Productos</a>
-                        </li>
-                        <li>
-                            <a href="#">Añadir</a>
-                        </li>
-                        <li>
-                            <a href="#">Actualizar</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fas fa-list-alt"></i><span>&nbsp;&nbsp;Inventario</span></a>
-                </li>
-                <li>
-                    <a href="#pageConfiguraciones" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
-                            class="icon ion-md-settings"></i><span>&nbsp;&nbsp;Ajustes</span></a>
-                    <ul class="collapse list-unstyled" id="pageConfiguraciones">
-                        <li>
-                            <a href="/usuarios">Usuarios</a>
-                        </li>
-                        <li>
-                            <a href="#">Perfil</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fas fa-sign-out-alt"></i><span>&nbsp;&nbsp;Salir</span></a>
-                </li>
-            </ul>
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a href="/"><i class="fab fa-flipboard"></i><span>&nbsp;&nbsp;Tablero</span></a>
+            </li>
+            <li>
+                <a href="#pageProducto" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="fas fa-boxes"></i><span>&nbsp;&nbsp;Productos</span></a>
+                <ul class="collapse list-unstyled" id="pageProducto">
+                    <li>
+                        <a href="#">Productos</a>
+                    </li>
+                    <li>
+                        <a href="#">Añadir</a>
+                    </li>
+                    <li>
+                        <a href="#">Actualizar</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-list-alt"></i><span>&nbsp;&nbsp;Inventario</span></a>
+            </li>
+            <li>
+                <a href="#pageConfiguraciones" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
+                        class="icon ion-md-settings"></i><span>&nbsp;&nbsp;Ajustes</span></a>
+                <ul class="collapse list-unstyled" id="pageConfiguraciones">
+                    <li>
+                        <a href="/usuarios">Usuarios</a>
+                    </li>
+                    <li>
+                        <a href="#">Perfil</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-sign-out-alt"></i><span>&nbsp;&nbsp;Salir</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="icon ion-md-list"></i>
+                </button>
+            </div>
         </nav>
 
-        <div id="content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="btn btn-info">
-                        <i class="icon ion-md-list"></i>
-                    </button>
-                </div>
-            </nav>
-
-            {% block content %}
-            {% endblock %}
-
-        </div>
+        {% block content %}
+        {% endblock %}
 
     </div>
 
+</div>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
 <!-- Popper.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"

@@ -1,5 +1,7 @@
 from builtins import object
 
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.forms import ModelForm, EmailInput
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -8,6 +10,7 @@ from usuarios.forms import UsuarioForm, createUserForm, formResetPassword
 from usuarios.models import Usuarios
 
 """
+Metodo sin buscar
 def usuarios(request):
     num_usuarios = Usuarios.objects.count()
     num_usuarios_activos = Usuarios.objects.filter(estado__exact='Activo').count() #filtro exacto
@@ -16,7 +19,8 @@ def usuarios(request):
     usuarios = Usuarios.objects.order_by('id')
     return render(request, 'usuarios/usuarios.html', {'num_usuarios': num_usuarios, 'usuarios':usuarios, 'num_usuarios_activos':num_usuarios_activos})
 """
-
+"""
+Metodo buscar 1
 def usuarios(request):
     num_usuarios = Usuarios.objects.count()
     num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
@@ -37,10 +41,36 @@ def usuarios(request):
     else:
         usuarios = Usuarios.objects.order_by('id')
     return render(request, 'usuarios/usuarios.html', {'usuarios':usuarios, 'num_usuarios':num_usuarios, 'num_usuarios_activos':num_usuarios_activos, 'num_usuarios_bloqueados':num_usuarios_bloqueados })
+"""
+
+#Metodo buscar 2
+
+def usuarios(request):
+    num_usuarios = Usuarios.objects.count()
+    num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
+    num_usuarios_bloqueados = Usuarios.objects.filter(estado__icontains=False).count()
+    queryset = request.POST.get('buscar')
+    if queryset:
+        usuarios = Usuarios.objects.filter(
+            Q(rut__icontains=queryset)|
+            Q(username__icontains=queryset)|
+            Q(nombres__icontains=queryset)|
+            Q(apellidos__icontains=queryset)|
+            Q(correo__icontains=queryset)
+        )
+    else:
+        usuarios = Usuarios.objects.order_by('id')
+
+    #paginador
+    paginador = Paginator(usuarios, 10)
+    page = request.GET.get('page')
+    usuarios = paginador.get_page(page)
+
+    return render(request, 'usuarios/usuarios.html', {'usuarios':usuarios, 'num_usuarios':num_usuarios, 'num_usuarios_activos':num_usuarios_activos, 'num_usuarios_bloqueados':num_usuarios_bloqueados })
+
 
 def crearUsuario(request):
     if request.method == 'POST':
-        #print(request.POST)
         formaUsuario = createUserForm(request.POST)
         if formaUsuario.is_valid():
             formaUsuario.save()

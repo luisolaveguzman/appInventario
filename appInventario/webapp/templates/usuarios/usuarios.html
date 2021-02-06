@@ -10,9 +10,11 @@
                 <a class="nav-link" href="/"><strong>Tablero</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="usuarios">Listado de Usuarios</a>
+                <a class="nav-link" href="/usuarios">Listado de Usuarios</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link btn" onclick="abrir_modal_crearLibro('/crearUsuario')">Crear Usuarios</a>
+            </li>
         </ul>
     </div>
     <form method="POST" action="/usuarios" class="form-inline"> {% csrf_token %}
@@ -59,42 +61,77 @@
             {% endif %}
             {% if usuario.estado == True %}
             <td class="text-center">
-                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('cambiarEstadoUsuario/{{usuario.id}}')">Desactivar</button>
-
+                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('/cambiarEstadoUsuario/{{usuario.id}}')">Desactivar</button>
+                <button class="btn btn-warning" onclick="abrir_modal_editar('/editarUsuario/{{usuario.id}}')">Editar</button>
+                <button class="btn btn-info" onclick="abrir_modal_resetpass('/cambiarClave/{{usuario.id}}')">Cambiar Clave</button>
+            <!-- botones originales
                 <a href="editarUsuario/{{usuario.id}}">
                     <button type="button" class="btn btn-warning">Editar</button>
                 </a>
                 <a href="cambiarClave/{{usuario.id}}">
                     <button type="button" class="btn btn-info">Restablecer Clave</button>
                 </a>
+                -->
             </td>
             {% else %}
             <td class="text-center">
-                <a href="cambiarEstadoUsuario/{{usuario.id}}">
-                    <button type="button" class="btn btn-danger">Activar</button>
-                </a>
+                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('cambiarEstadoUsuario/{{usuario.id}}')">Activar</button>
             </td>
             {% endif %}
-
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
 
-<div>Cantidad de Usuarios: {{num_usuarios}}</div>
-<div>Cantidad de Usuarios Activos: {{num_usuarios_activos}}</div>
-<div>Cantidad de Usuarios Activos: {{num_usuarios_bloqueados}}</div>
+<div class="row">
+    Resumen  Usuarios: {{num_usuarios}} | Activos: {{num_usuarios_activos}} | Bloqueados: {{num_usuarios_bloqueados}}
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 float-left">
+            {% if usuarios.has_previous %}
+            <div class="clearfix">
+                <a href="?page={{ usuarios.previous_page_number}}" class="btn btn-primary float-left">Atrás</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 float-right">
+            {% if usuarios.has_next %}
+            <div class="clearfix">
+                <a href="?page={{ usuarios.next_page_number}}" class="btn btn-primary float-right">Siguiente</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-<div class="modal fade" id="cambiarEstado" role="dialog"></div>
+<div class="modal fade" id="ventanaModal" role="dialog"></div>
 
 {% endblock %}
 {% block extrajs %}
 
 <script type="text/javascript">
     var $ = jQuery.noConflict();
+
     function abrir_modal_cambiarEstado(url){
-        $('#cambiarEstado').load(url, function (){
+        $('#ventanaModal').load(url, function (){
+            $(this).modal('show');
+        });
+    }
+
+    function abrir_modal_editar(url){
+        $('#ventanaModal').load(url, function (){
+            $(this).modal('show');
+        });
+    }
+
+    function abrir_modal_resetpass(url){
+        $('#ventanaModal').load(url, function (){
+            $(this).modal('show');
+        });
+    }
+
+     function abrir_modal_crearLibro(url){
+        $('#ventanaModal').load(url, function (){
             $(this).modal('show');
         });
     }

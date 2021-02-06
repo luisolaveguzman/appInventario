@@ -1,17 +1,13 @@
-{% extends "layout/layout.html" %}
-
-{% block content %}
-
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title">Cambiar estado del usuario <strong>{{usuario.correo}}</strong></h2>
-            <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="moda-body">
-            <form method="POST">
+        <div class="modal-body">
+            <form action="/cambiarEstadoUsuario/{{usuario.id}}" method="POST">
                 {% if usuario.estado == True%}
                 <h4>Bloquear usuario</h4>
                 {% else %}
@@ -20,11 +16,9 @@
                 {% csrf_token %}
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Guardar</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>
-
     </div>
 </div>
-{% endblock %}

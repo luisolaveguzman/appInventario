@@ -5,22 +5,29 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 class="modal-title"></h2>
+            <h2 class="modal-title">Cambiar estado del usuario <strong>{{usuario.correo}}</strong></h2>
+            <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        <div class="moda-body">
+            <form method="POST">
+                {% if usuario.estado == True%}
+                <h4>Bloquear usuario</h4>
+                {% else %}
+                <h4>Activar usuario</h4>
+                {% endif %}
+                {% csrf_token %}
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <a type="button" class="btn btn-primary" href="/usuarios">Cancelar</a>
+                    <!--
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    -->
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
-
-<p><h4>Cambiar estado del usuario <strong>{{usuario.correo}}</strong></h4></p>
-
-<form method="POST">
-    {% if usuario.estado == True%}
-    <h4>Bloquear usuario</h4>
-    {% else %}
-    <h4>Activar usuario</h4>
-    {% endif %}
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a type="button" class="btn btn-primary" href="/usuarios">Cancelar</a>
-</form>
-
 {% endblock %}
