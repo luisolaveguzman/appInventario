@@ -1,13 +1,31 @@
-{% for field in formaUsuario %}
-{% if field.name != 'estado' %}
-<div>
-    {{ field.errors }}
-    {{ field.label_tag }}
-    {{ field }}
-    <p></p>
-</div>
+{% if form %}
+    {% for field in form %}
+    {% if field.name != 'estado' %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{ field.label_tag }}
+        <span class="">{{ field }}</span>
+
+        <p></p>
+    </div>
+    {% else %}
+
+    {% endif %}
+
+    {% endfor %}
 {% else %}
+{% for field in formaUsuario %}
+    {% if field.name != 'estado' %}
+    <div class="form-group">
+        {{ field.errors }}
+        {{ field.label_tag }}
+        <span class="">{{ field }}</span>
 
+        <p></p>
+    </div>
+    {% else %}
+
+    {% endif %}
+
+    {% endfor %}
 {% endif %}
-
-{% endfor %}

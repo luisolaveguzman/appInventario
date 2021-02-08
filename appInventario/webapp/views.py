@@ -15,11 +15,14 @@ from django.views.generic import TemplateView
 class TableroView(TemplateView):
     template_name = 'app/tablero.html'
 
-    """ Ejemplo en ves de escribir template_name
+    """ Ejemplo en ves de escribir template_name se escribe
     def get(self, request, *args, **kwargs):
         return render(request, 'app/tablero.html')
     """
 
+class InicioSesion(TemplateView):
+    template_name = 'app/login.html'
+
 #vista basada en funciones
-def tablero(request):
-    return render(request, 'app/tablero.html')
+#def tablero(request):
+#   return render(request, 'app/tablero.html')

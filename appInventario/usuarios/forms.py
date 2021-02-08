@@ -68,6 +68,6 @@ class formResetPassword(UserCreationForm):
             'password2',
         )
         widgets = {
-            'password1': forms.PasswordInput(),
-            'password2': forms.PasswordInput(),
+            'password1': PasswordInput(attrs={'class':'form-control', 'value':'remember-me'}),
+            'password2': PasswordInput(attrs={'input_type': 'password', 'class':'form-control'}),
         }

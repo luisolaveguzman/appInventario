@@ -14,19 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.contrib.auth import login, logout
 
-from usuarios.views import crearUsuario, editarUsuario, cambiarEstadoUsuario, cambiarClave, ListUsuarios
+from usuarios.views import CambiarEstadoUsuario, CambiarClave, ListUsuarios, EditarUsuario, CrearUsuario
 from webapp.views import TableroView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', tablero, name='tablero'),
-    path('', TableroView.as_view(), name='tablero'),
+    path('tablero', TableroView.as_view(), name='tablero'),
+    path('', login, {'template_name':'login.html'}, name='login'),
     #path('usuarios', usuarios, name='usuarios'),
     path('usuarios', ListUsuarios.as_view(), name='usuarios'),
-    path('crearUsuario', crearUsuario, name='crearUsuario'),
-    path('editarUsuario/<int:id>', editarUsuario, name='editarUsuario'),
-    path('cambiarEstadoUsuario/<int:id>', cambiarEstadoUsuario, name='cambiarEstadoUsuario'),
-    path('cambiarClave/<int:id>', cambiarClave, name='cambiarClave'),
+    #path('crearUsuario', crearUsuario, name='crearUsuario'),
+    path('crearUsuario', CrearUsuario.as_view(), name='crearUsuario'),
+    #path('editarUsuario/<int:id>', editarUsuario, name='editarUsuario'),
+    path('editarUsuario/<int:pk>', EditarUsuario.as_view(), name='editarUsuario'),
+    #path('cambiarEstadoUsuario/<int:id>', cambiarEstadoUsuario, name='cambiarEstadoUsuario'),
+    path('cambiarEstadoUsuario/<int:pk>', CambiarEstadoUsuario.as_view(), name='cambiarEstadoUsuario'),
+    #path('cambiarClave/<int:id>', cambiarClave, name='cambiarClave'),
+    path('cambiarClave/<int:pk>', CambiarClave.as_view(), name='cambiarClave'),
 ]
