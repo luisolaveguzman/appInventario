@@ -18,16 +18,21 @@ from django.urls import path
 from django.contrib.auth.decorators import login_required
 
 from usuarios.views import CambiarEstadoUsuario, CambiarClave, ListUsuarios, EditarUsuario, CrearUsuario
-from webapp.views import TableroView, Login, logoutUsuario
+from webapp.views import TableroView, Login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #path('', tablero, name='tablero'),
     path('', login_required(TableroView.as_view()), name='tablero'),
-    path('accounts/login/', Login.as_view(), name='login'),
-    path('usuarios', login_required(ListUsuarios.as_view()), name='usuarios'),
+    path('/accounts/login/', Login.as_view(), name='login'),
+    #path('usuarios', usuarios, name='usuarios'),
+    path('usuarios', ListUsuarios.as_view(), name='usuarios'),
+    #path('crearUsuario', crearUsuario, name='crearUsuario'),
     path('crearUsuario', CrearUsuario.as_view(), name='crearUsuario'),
+    #path('editarUsuario/<int:id>', editarUsuario, name='editarUsuario'),
     path('editarUsuario/<int:pk>', EditarUsuario.as_view(), name='editarUsuario'),
+    #path('cambiarEstadoUsuario/<int:id>', cambiarEstadoUsuario, name='cambiarEstadoUsuario'),
     path('cambiarEstadoUsuario/<int:pk>', CambiarEstadoUsuario.as_view(), name='cambiarEstadoUsuario'),
+    #path('cambiarClave/<int:id>', cambiarClave, name='cambiarClave'),
     path('cambiarClave/<int:pk>', CambiarClave.as_view(), name='cambiarClave'),
-    path('logout/', login_required(logoutUsuario), name='logout')
 ]

@@ -24,10 +24,17 @@
             <h4>Gestión de Inventario</h4>
             <strong>GI</strong>
         </div>
-
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
         <ul class="list-unstyled components">
             <li class="active">
                 <a href="/"><i class="fab fa-flipboard"></i><span>&nbsp;&nbsp;Tablero</span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-list-alt"></i><span>&nbsp;&nbsp;Inventario</span></a>
             </li>
             <li>
                 <a href="#pageProducto" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
@@ -45,9 +52,6 @@
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fas fa-list-alt"></i><span>&nbsp;&nbsp;Inventario</span></a>
-            </li>
-            <li>
                 <a href="#pageConfiguraciones" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i
                         class="fas fa-user-cog"></i><span>&nbsp;&nbsp;Ajustes</span></a>
                 <ul class="collapse list-unstyled" id="pageConfiguraciones">
@@ -55,24 +59,17 @@
                         <a href="/usuarios">Usuarios</a>
                     </li>
                     <li>
-                        <a href="#">Perfil</a>
+                        <a href="#">Perfiles</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#"><i class="fas fa-sign-out-alt"></i><span>&nbsp;&nbsp;Salir</span></a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i><span>&nbsp;&nbsp;Salir</span></a>
             </li>
         </ul>
     </nav>
 
     <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <button type="button" id="sidebarCollapse" class="btn btn-info">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </nav>
 
         {% block content %}
         {% endblock %}

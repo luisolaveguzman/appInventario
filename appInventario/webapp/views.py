@@ -1,28 +1,34 @@
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
+from django.contrib.auth import login, logout
+from django.http import HttpResponseRedirect
 
-"""
-    Como funciiona Wiew
-    dispatch(): Valida la petición y elige que metodo http se utilizo para la solicitud por el template
-    http_metho_not_allowed(): retorna error cuando se utiliza un metodo http no soportado o definido
-    options(): responde a peticios options
-    
-    View se utiliza para trabajar logica
-    TemplateView se utiliza para renderizar un template
-"""
+from webapp.forms import LoginForm
 
-#vista basada en clases
 class TableroView(TemplateView):
     template_name = 'app/tablero.html'
 
-    """ Ejemplo en ves de escribir template_name se escribe
-    def get(self, request, *args, **kwargs):
-        return render(request, 'app/tablero.html')
-    """
-
-class InicioSesion(TemplateView):
+class Login(FormView):
     template_name = 'app/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('tablero')
 
-#vista basada en funciones
-#def tablero(request):
-#   return render(request, 'app/tablero.html')
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(Login, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(Login, self).form_valid(form)
+
+def logoutUsuario(request):
+    logout(request)
+    return HttpResponseRedirect('/accounts/login/')

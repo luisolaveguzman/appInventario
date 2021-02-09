@@ -1,13 +1,11 @@
-from builtins import object
-
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 # Create your views here.
-from usuarios.forms import UsuarioForm, createUserForm, formResetPassword
+from usuarios.forms import UsuarioForm, CreateUserForm, FormResetPassword
 from usuarios.models import Usuarios
 
 class ListUsuarios(ListView):
@@ -37,7 +35,7 @@ class ListUsuarios(ListView):
 
 class CrearUsuario(CreateView):
     model = Usuarios
-    form_class = createUserForm
+    form_class = CreateUserForm
     template_name = 'usuarios/crearUsuario.html'
     success_url = reverse_lazy('usuarios')
 
@@ -51,7 +49,7 @@ class EditarUsuario(UpdateView):
 class CambiarClave(UpdateView):
     model = Usuarios
     template_name = 'usuarios/cambiarClave.html'
-    form_class = formResetPassword
+    form_class = FormResetPassword
     success_url = reverse_lazy('usuarios')
 
 class CambiarEstadoUsuario(DeleteView):

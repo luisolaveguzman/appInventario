@@ -30,7 +30,7 @@ class UsuarioForm(ModelForm):
             'username':'Cuenta de usuario',
         }
 
-class createUserForm(UserCreationForm):
+class CreateUserForm(UserCreationForm):
     class Meta:
         model = Usuarios
         fields = (
@@ -60,7 +60,7 @@ class createUserForm(UserCreationForm):
         }
 
 
-class formResetPassword(UserCreationForm):
+class FormResetPassword(UserCreationForm):
     class Meta:
         model = Usuarios
         fields = (
@@ -68,6 +68,6 @@ class formResetPassword(UserCreationForm):
             'password2',
         )
         widgets = {
-            'password1': PasswordInput(attrs={'class':'form-control', 'value':'remember-me'}),
-            'password2': PasswordInput(attrs={'input_type': 'password', 'class':'form-control'}),
+            'password1': PasswordInput(attrs={'input_type':'password','class':'form-control'}),
+            'password2': PasswordInput(attrs={'input_type': 'password'}),
         }

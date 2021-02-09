@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/customField.css' %}">
+
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -12,7 +15,7 @@
                 {% csrf_token %}
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Guardar</button>
-                    <a type="button" class="btn btn-primary" href="/usuarios">Cancelar</a>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>
         </div>

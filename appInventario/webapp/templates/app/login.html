@@ -15,22 +15,29 @@
 <div class="text-center conteiner p-3 form-group">
     <form class="form-signin" method="post">
         {% csrf_token %}
+        {% if request.method == 'POST' %}
+            {% if form.error_messages %}
+            <div class="form-group">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <span>Usuario o contraseña incorrectos</span>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
         <h1 class="h3 mb-3 form-group">Iniciar sesión</h1>
         <div class="form-group">
-            <label for="username" class="sr-only">Nombre de Usuario</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Cuenta de usuario"
-                   required autofocus>
+            <label class="sr-only">Nombre de Usuario</label>
+            {{ form.username }}
         </div>
         <div class="form-group">
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required>
+            <label class="sr-only">Password</label>
+            {{ form.password}}
         </div>
         <div class="checkbox mb-3">
             <label><input type="checkbox" value="remember-me"> Recuerdame</label>
         </div>
         <div>
-            <button type="submit" id="sendLogin" name="login" class="btn btn-primary">Iniciar Sesión</button>
+            <button type="submit" id="login" name="login" class="btn btn-primary">Iniciar Sesión</button>
         </div>
     </form>
 </div>
