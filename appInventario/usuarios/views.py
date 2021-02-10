@@ -1,20 +1,29 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView, View
 
 # Create your views here.
 from usuarios.forms import UsuarioForm, CreateUserForm, FormResetPassword
 from usuarios.models import Usuarios
 
-class ListUsuarios(ListView):
+class ListUsuarios(View):
     model = Usuarios
     template_name = 'usuarios/usuarios.html'
-    context_object_name = 'listUsuarios'
-    queryset = Usuarios.objects.order_by('id')
 
-    def post(self, request, queryset, *args, **kwargs):
+    def get_queryset(self):
+        return self.model.objects.order_by('id')
+
+    def get_context_data(self, **kwargs):
+        contexto = {}
+        contexto['listUsuarios'] = self.get_queryset()
+        return contexto
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
         queryset = request.POST.get('buscar')
         if queryset:
             queryset = Usuarios.objects.filter(
@@ -26,6 +35,10 @@ class ListUsuarios(ListView):
         )
         else:
             queryset = Usuarios.objects.order_by('id')
+        contexto = {}
+        contexto['listUsuarios'] = queryset
+            
+        return render(request, self.template_name, contexto)
 
     # paginador
     # paginador = Paginator(usuarios, 10)

@@ -25,9 +25,10 @@ urlpatterns = [
     path('', login_required(TableroView.as_view()), name='tablero'),
     path('accounts/login/', Login.as_view(), name='login'),
     path('usuarios', login_required(ListUsuarios.as_view()), name='usuarios'),
-    path('crearUsuario', CrearUsuario.as_view(), name='crearUsuario'),
-    path('editarUsuario/<int:pk>', EditarUsuario.as_view(), name='editarUsuario'),
-    path('cambiarEstadoUsuario/<int:pk>', CambiarEstadoUsuario.as_view(), name='cambiarEstadoUsuario'),
-    path('cambiarClave/<int:pk>', CambiarClave.as_view(), name='cambiarClave'),
+    #path('crearUsuario', crearUsuario, name='crearUsuario'),
+    path('crearUsuario', login_required(CrearUsuario.as_view()), name='crearUsuario'),
+    path('editarUsuario/<int:pk>', login_required(EditarUsuario.as_view()), name='editarUsuario'),
+    path('cambiarEstadoUsuario/<int:pk>', login_required(CambiarEstadoUsuario.as_view()), name='cambiarEstadoUsuario'),
+    path('cambiarClave/<int:pk>', login_required(CambiarClave.as_view()), name='cambiarClave'),
     path('logout/', login_required(logoutUsuario), name='logout')
 ]
