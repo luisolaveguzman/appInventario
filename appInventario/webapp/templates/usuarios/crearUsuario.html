@@ -10,11 +10,11 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action='/crearUsuario' method="POST">
+        <form id="form_crear" action='/crearUsuario' method="POST">
                 {% include "layout/form_snippets.html" %}
                 {% csrf_token %}
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-success" onclick="registrar();">Guardar</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                 </div>
             </form>

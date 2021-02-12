@@ -16,20 +16,15 @@
             </li>
         </ul>
     </div>
-    <form method="POST" action="/usuarios" class="form-inline"> {% csrf_token %}
-        <div class="input-group">
-            <input type="text" name="buscar" class="form-control" placeholder="Buscar..." aria-label="Username"
-                   aria-describedby="basic-addon1">
-            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></i></button>
-        </div>
-    </form>
+    <p></p>
 </nav>
 
 
 <div>
-    <table class="table table-bordered">
+    <table class="table table-striped table-bordered" style="width:100%" id="tabla_usuarios">
         <thead>
         <tr>
+            <th>#</th>
             <th>Rut</th>
             <th>Username</th>
             <th>Nombres</th>
@@ -41,58 +36,9 @@
         </tr>
         </thead>
         <tbody>
-        {% for usuario in listUsuarios %}
-        <tr>
-            <td>{{usuario.rut}}</td>
-            <td>{{usuario.username}}</td>
-            <td>{{usuario.nombres}} {{usuarios.apeMat}}</td>
-            <td>{{usuario.apellidos}}</td>
-            <td>{{usuario.correo}}</td>
-            {% if usuario.estado == True %}
-            <td>Activo</td>
-            {% else %}
-            <td>Bloqueado</td>
-            {% endif %}
-            {% if usuario.user_administrador == True %}
-            <td>Admin</td>
-            {% else %}
-            <td>User</td>
-            {% endif %}
-            {% if usuario.estado == True %}
-            <td class="text-center">
-                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('/cambiarEstadoUsuario/{{usuario.id}}')">Desactivar</button>
-                <button class="btn btn-warning" onclick="abrir_modal_editar('/editarUsuario/{{usuario.id}}')">Editar</button>
-                <button class="btn btn-info" onclick="abrir_modal_resetpass('/cambiarClave/{{usuario.id}}')">Cambiar Clave</button>
-            </td>
-            {% else %}
-            <td class="text-center">
-                <button class="btn btn-danger" onclick="abrir_modal_cambiarEstado('cambiarEstadoUsuario/{{usuario.id}}')">Activar</button>
-            </td>
-            {% endif %}
-        </tr>
-        {% endfor %}
+
         </tbody>
     </table>
-</div>
-
-<div class="row">
-    Resumen  Usuarios: {{num_usuarios}} | Activos: {{num_usuarios_activos}} | Bloqueados: {{num_usuarios_bloqueados}}
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 float-left">
-            {% if usuarios.has_previous %}
-            <div class="clearfix">
-                <a href="?page={{ usuarios.previous_page_number}}" class="btn btn-primary float-left">Atrás</a>
-            </div>
-            {% endif %}
-        </div>
-        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 float-right">
-            {% if usuarios.has_next %}
-            <div class="clearfix">
-                <a href="?page={{ usuarios.next_page_number}}" class="btn btn-primary float-right">Siguiente</a>
-            </div>
-            {% endif %}
-        </div>
-    </div>
 </div>
 
 <div class="modal fade" id="ventanaModal" role="dialog"></div>
@@ -100,9 +46,9 @@
 {% endblock %}
 {% block extrajs %}
 
-<script type="text/javascript">
-    var $ = jQuery.noConflict();
+<script src="../../static/js/usuarios/usuarios.js"></script>
 
+<script type="text/javascript">
     function abrir_modal_cambiarEstado(url){
         $('#ventanaModal').load(url, function (){
             $(this).modal('show');
@@ -125,6 +71,20 @@
         $('#ventanaModal').load(url, function (){
             $(this).modal('show');
         });
+    }
+
+    function registrar(){
+        $.ajax({
+            data: $('#form_crear').serialize(),
+            url: $('#form_creacion').attr('action'),
+            type: $('#form_crear').attr('method'),
+            success: function(response){
+
+            },
+            error: function(error){
+
+            }
+        })
     }
 </script>
 

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from itertools import cycle
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, rut, username, nombres, apellidos, correo, password = None):
@@ -66,3 +66,26 @@ class Usuarios(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.user_administrador
+
+
+def validarRut(rut):
+    rut = rut.upper()
+    rut = rut.replace("-", "")
+    rut = rut.replace(".", "")
+    aux = rut[:-1]
+    dv = rut[-1:]
+
+    try:
+        revertido = map(int, reversed(str(aux)))
+        factors = cycle(range(2, 8))
+        s = sum(d * f for d, f in zip(revertido, factors))
+        res = (-s) % 11
+    except:
+        return False
+
+    if str(res) == dv:
+        return True
+    elif dv == "K" and res == 10:
+        return True
+    else:
+        return False

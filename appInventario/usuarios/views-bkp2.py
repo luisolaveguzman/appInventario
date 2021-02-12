@@ -1,11 +1,9 @@
 import json
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import request
-from django.shortcuts import redirect, get_object_or_404, render, HttpResponse
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
-from django.core.serializers import serialize #permite convertir los formatos
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView, View, TemplateView
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView, View
 
 # Create your views here.
 from usuarios.forms import UsuarioForm, CreateUserForm, FormResetPassword
@@ -20,11 +18,6 @@ class ListUsuarios(View):
     num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
     num_usuarios_bloqueados = Usuarios.objects.filter(estado__icontains=False).count()
 
-    def paginador(self):
-        paginador = Paginator(self.get_queryset(), 10)
-        page = request.GET.get('page')
-        self.get_queryset = paginador.get_page(page)
-
     def get_queryset(self):
         return self.model.objects.order_by('id')
 
@@ -37,15 +30,7 @@ class ListUsuarios(View):
         return contexto
 
     def get(self, request, *args, **kwargs):
-        if request.is_ajax():
-            data = serialize('json', self.get_queryset()) #formato final y consulta actual
-            #convierte una serie de elementos a json, si no se le pasa una lista da un error
-            #se puede convertir a lista envolviendo la respuesta  en [],
-            return HttpResponse(data, 'application/json')
-        else:
-            #return render(request, self.template_name, self.get_context_data())
-            return redirect('inicio_usuarios')
-
+        return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
         queryset = request.POST.get('buscar')

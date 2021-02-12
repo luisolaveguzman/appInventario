@@ -211,7 +211,7 @@ a[aria-expanded="true"] {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 468px) {
     /* 80px and its content aligned to centre. Pushing it off the screen with the
        negative left margin
     */

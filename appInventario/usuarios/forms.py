@@ -44,7 +44,12 @@ class CreateUserForm(UserCreationForm):
             'user_administrador',
         )
         widgets = {
-            'correo': EmailInput(attrs={'type': 'email', 'placeholder': 'tuCorreo@mail.cl'}),
+            'correo': EmailInput(
+                attrs={
+                    'type': 'email',
+                    'placeholder': 'tuCorreo@mail.cl',
+                    'class':'form-control'
+                }),
             'rut': TextInput(
                 attrs={
                     'placeholder':'Ejemplo: 12345678-8',
@@ -53,11 +58,12 @@ class CreateUserForm(UserCreationForm):
             'username': TextInput(attrs={'class':'form-control'}),
             'nombres': TextInput(attrs={'class':'form-control'}),
             'apellidos': TextInput(attrs={'class':'form-control'}),
-            'correo': TextInput(attrs={'class':'form-control'}),
             'password1': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
             'password2': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
             'user_administrador': CheckboxInput(attrs={'type':'radio'})
         }
+
+
 
 
 class FormResetPassword(UserCreationForm):

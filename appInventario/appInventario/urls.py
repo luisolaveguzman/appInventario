@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-
+from django.views.generic import TemplateView
 from usuarios.views import CambiarEstadoUsuario, CambiarClave, ListUsuarios, EditarUsuario, CrearUsuario
 from webapp.views import TableroView, Login, logoutUsuario
 
@@ -31,4 +31,14 @@ urlpatterns = [
     path('cambiarEstadoUsuario/<int:pk>', login_required(CambiarEstadoUsuario.as_view()), name='cambiarEstadoUsuario'),
     path('cambiarClave/<int:pk>', login_required(CambiarClave.as_view()), name='cambiarClave'),
     path('logout/', login_required(logoutUsuario), name='logout')
+]
+
+#URL de vistas implicitas
+urlpatterns += [
+    path('inicio_usuarios/',
+             login_required(
+                 TemplateView.as_view(
+                     template_name = 'usuarios/usuarios.html'
+                 )
+             ), name='inicio_usuarios'),
 ]
