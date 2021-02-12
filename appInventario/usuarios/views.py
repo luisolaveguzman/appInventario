@@ -1,8 +1,8 @@
 import json
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import request
-from django.shortcuts import redirect, get_object_or_404, render, HttpResponse
+from django.http import request, HttpResponse, JsonResponse
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse_lazy
 from django.core.serializers import serialize #permite convertir los formatos
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, View, TemplateView
@@ -80,28 +80,35 @@ class CrearUsuario(CreateView):
 
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            nuevo_usuario = Usuarios(
-                rut = form.cleaned_data.get('rut'),
-                username = form.cleaned_data.get('username'),
-                nombres = form.cleaned_data.get('nombres'),
-                apellidos = form.cleaned_data.get('apellidos'),
-                correo = form.cleaned_data.get('correo'),
-                user_administrador = form.cleaned_data.get('user_administrador'),
-            )
-            print(validarRut(nuevo_usuario.rut))
-            #print(form)
-            if validarRut(nuevo_usuario.rut):
+        if request.is_ajax():
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                nuevo_usuario = Usuarios(
+                    rut = form.cleaned_data.get('rut'),
+                    username = form.cleaned_data.get('username'),
+                    nombres = form.cleaned_data.get('nombres'),
+                    apellidos = form.cleaned_data.get('apellidos'),
+                    correo = form.cleaned_data.get('correo'),
+                    user_administrador = form.cleaned_data.get('user_administrador'),
+                )
                 nuevo_usuario.set_password(form.cleaned_data.get('password1'))
                 nuevo_usuario.save()
-                return redirect(self.success_url)
-                #print(validarRut(nuevo_usuario.rut))
+                mensaje = f'{self.model.__name__}registrado correctametne'
+                error = 'Sin errores'
+                response = JsonResponse({'mensaje':mensaje, 'error':error})
+                response.status_code = 201
+                return response
+
             else:
-                return render(request, self.template_name, {'form': form})
+                mensaje = f'{self.model.__name__} No se a podido registrar'
+                error = form.errors
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 400
+                return response
         else:
-            return render(request, self.template_name, {'form':form})
+            return redirect('/inicio_usuarios')
+
+
 
 class EditarUsuario(UpdateView):
     model = Usuarios

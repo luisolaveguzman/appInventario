@@ -73,19 +73,6 @@
         });
     }
 
-    function registrar(){
-        $.ajax({
-            data: $('#form_crear').serialize(),
-            url: $('#form_creacion').attr('action'),
-            type: $('#form_crear').attr('method'),
-            success: function(response){
-
-            },
-            error: function(error){
-
-            }
-        })
-    }
 </script>
 
 {% endblock extrajs %}

@@ -21,3 +21,23 @@
         </div>
     </div>
 </div>
+
+{% block extrajs %}
+
+<script type="text/javascript">
+    function registrar(){
+        $.ajax({
+            data: $('#form_crear').serialize(),
+            url: $('#form_crear').attr('action'),
+            type: $('#form_crear').attr('method'),
+            success: function(response){
+                console.log(response);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    }
+</script>
+
+{% endblock extrajs %}
