@@ -10,12 +10,17 @@
             </button>
         </div>
         <div class="modal-body">
-        <form id="form_crear" action='/crearUsuario' method="POST">
+            <form id="form_crear" action='/crearUsuario' method="POST">
+                <div id="errores">
+
+                </div>
                 {% include "layout/form_snippets.html" %}
                 {% csrf_token %}
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="registrar();">Guardar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="registrar(listadoUsuarios());"
+                            id="boton_creacion">Guardar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="cerrar_modal();">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -23,21 +28,6 @@
 </div>
 
 {% block extrajs %}
-
-<script type="text/javascript">
-    function registrar(){
-        $.ajax({
-            data: $('#form_crear').serialize(),
-            url: $('#form_crear').attr('action'),
-            type: $('#form_crear').attr('method'),
-            success: function(response){
-                console.log(response);
-            },
-            error: function(error){
-                console.log(error);
-            }
-        })
-    }
-</script>
-
+<script src="../../static/js/usuarios/usuarios.js"></script>
+<script src="../../static/js/scripts.js"></script>
 {% endblock extrajs %}

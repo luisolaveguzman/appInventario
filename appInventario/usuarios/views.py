@@ -93,14 +93,14 @@ class CrearUsuario(CreateView):
                 )
                 nuevo_usuario.set_password(form.cleaned_data.get('password1'))
                 nuevo_usuario.save()
-                mensaje = f'{self.model.__name__}registrado correctametne'
+                mensaje = f'Usuario registrado correctamente'
                 error = 'Sin errores'
                 response = JsonResponse({'mensaje':mensaje, 'error':error})
                 response.status_code = 201
                 return response
 
             else:
-                mensaje = f'{self.model.__name__} No se a podido registrar'
+                mensaje = f'Error al registrar usuario'
                 error = form.errors
                 response = JsonResponse({'mensaje': mensaje, 'error': error})
                 response.status_code = 400
