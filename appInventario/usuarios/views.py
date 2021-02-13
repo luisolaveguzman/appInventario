@@ -91,13 +91,21 @@ class CrearUsuario(CreateView):
                     correo = form.cleaned_data.get('correo'),
                     user_administrador = form.cleaned_data.get('user_administrador'),
                 )
-                nuevo_usuario.set_password(form.cleaned_data.get('password1'))
-                nuevo_usuario.save()
-                mensaje = f'Usuario registrado correctamente'
-                error = 'Sin errores'
-                response = JsonResponse({'mensaje':mensaje, 'error':error})
-                response.status_code = 201
-                return response
+                if validarRut(nuevo_usuario.rut):
+                    nuevo_usuario.set_password(form.cleaned_data.get('password1'))
+                    nuevo_usuario.save()
+                    mensaje = f'Usuario registrado correctamente'
+                    error = 'Sin errores'
+                    response = JsonResponse({'mensaje': mensaje, 'error': error})
+                    response.status_code = 201
+                    return response
+                else:
+                    mensaje = f'Error al registrar usuario'
+                    error = form.errors
+                    response = JsonResponse({'mensaje': mensaje, 'error': error})
+                    response.status_code = 400
+                    return response
+
 
             else:
                 mensaje = f'Error al registrar usuario'

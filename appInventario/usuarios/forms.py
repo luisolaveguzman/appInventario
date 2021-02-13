@@ -60,7 +60,8 @@ class CreateUserForm(UserCreationForm):
             'apellidos': TextInput(attrs={'class':'form-control'}),
             'password1': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
             'password2': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
-            'user_administrador': CheckboxInput(attrs={'type':'radio'})
+            'user_administrador': CheckboxInput(attrs={'type':'radio'}),
+            'estado':TextInput(attrs={'hidden':True})
         }
 
 

@@ -11,10 +11,13 @@
         </div>
         <div class="modal-body">
             <form id="form_crear" action='/crearUsuario' method="POST">
-                <div id="errores">
-
+                {% for field in form %}
+                <div class="form-group">
+                    <div id="errores"></div>
+                    {{ field.label_tag }}
+                    {{ field }}
                 </div>
-                {% include "layout/form_snippets.html" %}
+                {% endfor %}
                 {% csrf_token %}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="registrar(listadoUsuarios());"
