@@ -1,3 +1,4 @@
+
 .wrapper {
     display: flex;
     width: 100%;
@@ -10,11 +11,15 @@
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #27768F;
-    color: #fff;
+    min-width: 260px;
+    max-width: 260px;
+    background: #fff;
+    color: #A6A4AB;
     transition: all 0.3s;
+    padding-left: 30px;
+    padding-right:30px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
 }
 
 #sidebar.active {
@@ -24,8 +29,8 @@
 }
 
 #sidebar {
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 260px;
+    max-width: 260px;
     min-height: 100vh;
 }
 
@@ -33,8 +38,11 @@ a[data-toggle="collapse"] {
     position: relative;
 }
 
+
+
 body {
-    font-family: 'Poppins', sans-serif;
+
+   font-weight: 500;
 }
 
 a, a:hover, a:focus {
@@ -54,14 +62,17 @@ a, a:hover, a:focus {
 /*Titulo App*/
 
 #sidebar .sidebar-header {
-    padding: 20px;
+    padding-top: 30px;
+
 }
 
 /*Estilo de las listas ul y li*/
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+
+    font-weight:300px;
+    letter-spacing: 1px;
 }
 
 #sidebar ul p {
@@ -70,16 +81,21 @@ a, a:hover, a:focus {
 }
 
 #sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
+    padding-top: 10px;
+    font-size: 16px;
     display: block;
+    margin-top: 20px;
+
 }
 
 
 /*Color del cursor al seleccionar el elemento*/
 #sidebar ul li a:hover {
     color: #224E5C;
-    background: #fff;
+    background: #f9f9f9;
+    padding: 5px 15px 5px 15px;
+
+    border-radius: 4px;
 }
 
 
@@ -89,7 +105,11 @@ ul ul a {
 }
 
 a[aria-expanded="true"] {
-    color: #fff;
+    color: #000;
+    background: #f9f9f9;
+    padding: 5px 15px 5px 15px;
+    margin: 5px;
+    border-radius: 4px;
 }
 
 #sidebar .sidebar-header strong {
@@ -144,7 +164,7 @@ a[aria-expanded="true"] {
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
-}
+    background: #F8F9FA;
 
 /*Estilo de Tabla*/
 .table-btn {
@@ -166,11 +186,11 @@ a[aria-expanded="true"] {
 
     /* Reappearing the sidebar on toggle button click */
     #sidebar {
-        margin-left: 0;
+        margin-left: 0; 
     }
 
 
-    /* Toggling the sidebar header content,
+    /* Toggling the sidebar header content, 
        hide the big heading [h3] and showing the small heading [strong] and vice versa
     */
     #sidebar .sidebar-header strong {
@@ -201,8 +221,8 @@ a[aria-expanded="true"] {
         padding: 10px !important;
     }
 
-    /* Changing the arrow position to bottom center position,
-      translateX(50%) works with right: 50%
+    /* Changing the arrow position to bottom center position, 
+      translateX(50%) works with right: 50% 
       to accurately  center the arrow */
     .dropdown-toggle::after {
         top: auto;
@@ -216,7 +236,7 @@ a[aria-expanded="true"] {
 
 
 
-@media (max-width: 468px) {
+@media (max-width: 768px) {
     /* 80px and its content aligned to centre. Pushing it off the screen with the
        negative left margin
     */
@@ -290,4 +310,8 @@ a[aria-expanded="true"] {
         right: 20px;
         transform: translateY(-50%);
     }
+}
+
+.table-head  {
+    background: #000 !important;
 }

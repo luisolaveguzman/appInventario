@@ -1,13 +1,6 @@
 {% for field in form %}
-{% if field.name != 'estado' %}
 <div class="form-group">
     {{ field.label_tag }}
     {{ field }}
-
-    <p></p>
 </div>
-{% else %}
-
-{% endif %}
-
 {% endfor %}
