@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
-from usuarios.views import CambiarEstadoUsuario, CambiarClave, ListUsuarios, EditarUsuario, CrearUsuario
+from usuarios.views import CambiarEstadoUsuario, CambiarClave, ListUsuarios, EditarUsuario, CrearUsuario, \
+    EliminarUsuario
 from webapp.views import TableroView, Login, logoutUsuario
 
 urlpatterns = [
@@ -28,7 +29,7 @@ urlpatterns = [
     #path('crearUsuario', crearUsuario, name='crearUsuario'),
     path('crearUsuario', login_required(CrearUsuario.as_view()), name='crearUsuario'),
     path('editarUsuario/<int:pk>', login_required(EditarUsuario.as_view()), name='editarUsuario'),
-    path('cambiarEstadoUsuario/<int:pk>', login_required(CambiarEstadoUsuario.as_view()), name='cambiarEstadoUsuario'),
+    path('eliminarUsuario/<int:pk>', login_required(EliminarUsuario.as_view()), name='cambiarEstadoUsuario'),
     path('cambiarClave/<int:pk>', login_required(CambiarClave.as_view()), name='cambiarClave'),
     path('logout/', login_required(logoutUsuario), name='logout')
 ]

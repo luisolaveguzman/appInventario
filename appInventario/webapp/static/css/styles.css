@@ -146,6 +146,11 @@ a[aria-expanded="true"] {
     transition: all 0.3s;
 }
 
+/*Estilo de Tabla*/
+.table-btn {
+    margin: 5px;
+}
+
 /* Responsive*/
 @media (max-width: 768px) {
     /* 80px and its content aligned to centre. Pushing it off the screen with the

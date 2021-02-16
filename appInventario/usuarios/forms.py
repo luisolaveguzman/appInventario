@@ -44,24 +44,52 @@ class CreateUserForm(UserCreationForm):
             'user_administrador',
         )
         widgets = {
-            'correo': EmailInput(
-                attrs={
-                    'type': 'email',
-                    'placeholder': 'tuCorreo@mail.cl',
-                    'class':'form-control'
-                }),
-            'rut': TextInput(
-                attrs={
-                    'placeholder':'Ejemplo: 12345678-8',
-                    'class':'form-control input-lg'
-                }),
-            'username': TextInput(attrs={'class':'form-control'}),
-            'nombres': TextInput(attrs={'class':'form-control'}),
-            'apellidos': TextInput(attrs={'class':'form-control'}),
-            'password1': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
-            'password2': PasswordInput(attrs={'type':'password', 'class':'form-control'}),
-            'user_administrador': CheckboxInput(attrs={'type':'radio'}),
-            'estado':TextInput(attrs={'hidden':True})
+            'correo': EmailInput(attrs={
+                'type': 'email',
+                'placeholder': 'tuCorreo@mail.cl',
+                'class':'form-control',
+                'id':'correo'
+            }),
+            'rut': TextInput(attrs={
+                'placeholder':'Rut sin puntos y con guion medio (12345678-9)',
+                'class':'form-control input-lg',
+                'id':'rut'
+            }),
+            'username': TextInput(attrs={
+                'class':'form-control',
+                'placeholder':'username',
+                'id':'username'
+            }),
+            'nombres': TextInput(attrs={
+                'class':'form-control',
+                'id':'nombres'
+            }),
+            'apellidos': TextInput(attrs={
+                'class':'form-control',
+                'id':'apellidos'
+            }),
+            'password1': PasswordInput(attrs={
+                'type':'password',
+                'class':'form-control',
+                'id':'password1',
+            }),
+            'password2': PasswordInput(attrs={
+                'type':'password',
+                'class':'form-control',
+                'id': 'password2',
+            }),
+            'user_administrador': CheckboxInput(attrs={
+                'type':'radio'
+            }),
+            'estado':TextInput(attrs={
+                'hidden':True
+            })
+        }
+        labels = {
+            'username':'Cuenta de usuario'
+        }
+        icons = {
+            'rut':'far fa-times-circle'
         }
 
 

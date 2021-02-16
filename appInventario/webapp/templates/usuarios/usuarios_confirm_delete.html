@@ -7,11 +7,7 @@
         </div>
         <div class="modal-body">
             <form action="/cambiarEstadoUsuario/{{object.id}}" method="POST">
-                {% if object.estado == True%}
-                <h4 class="text-center">Esta seguro que desea bloquear el usuario <strong>{{object.correo}}?</strong>?</h4>
-                {% else %}
-                <h4 class="text-center">Esta seguro que desea activar el usuario <strong>{{object.correo}}?</strong></h4>
-                {% endif %}
+                <h4 class="text-center">Esta seguro que desea eliminar el usuario <strong>{{object.correo}}?</strong></h4>
                 {% csrf_token %}
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Guardar</button>

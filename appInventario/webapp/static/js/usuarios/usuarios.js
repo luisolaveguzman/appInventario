@@ -5,6 +5,7 @@ function listadoUsuarios() {
         type: "get",
         dataType: "json",
         success: function(response){
+            console.log(response);
             if ($.fn.DataTable.isDataTable('#tabla_usuarios')) {
                 $('#tabla_usuarios').DataTable().destroy();
             }
@@ -28,10 +29,10 @@ function listadoUsuarios() {
                 } else
                     fila += '<td>Usuario</td>';
 
-                fila += '<td>' +
-                    '<button class="btn btn-warning">Editar</button>' +
-                    '<button class="btn btn-danger">Bloquear</button>' +
-                    '<button class="btn btn-info">Password</button></td>';
+                fila += '<td class="text-center btn-group-sm">'
+                fila += '<button type="button" class="btn btn-warning" onclick="abrir_modal_editar(\'/editarUsuario/' + response[i]['pk']  + '\');">Editar</button>' + '<span>&nbsp;&nbsp;</span>'
+                fila += '<button type="button" class="btn btn-danger">Bloquear</button>' + '<span>&nbsp;&nbsp;</span>'
+                fila += '<button type="button" class="btn btn-info">Password</button></td>';
                 fila += '</tr>';
                 $('#tabla_usuarios tbody').append(fila)
             }
@@ -78,28 +79,54 @@ function abrir_modal_crearUsuario(url) {
     });
 }
 
+function abrir_modal_editar(url){
+    $('#ventanaModal').load(url, function () {
+        $(this).modal('show');
+    });
+}
+
 function cerrar_modal() {
     $('#ventanaModal').modal('hide');
 }
 
-function registrar(listado) {
-    activarBoton();
+function registrar() {
+    //activarBoton();
     $.ajax({
         data: $('#form_crear').serialize(),
         url: $('#form_crear').attr('action'),
         type: $('#form_crear').attr('method'),
         success: function (response) {
-            listadoUsuarios();
-            notificacionCrear(response.mensaje);
+            activarBoton();
+            notificacionCrear(response.mensaje);            
+            listadoUsuarios();            
             cerrar_modal();
         },
         error: function (error) {
             notificacionError(error.responseJSON.mensaje);
-            mostrarErrores(error)
-            activarBoton();
+            mostrarErrores(error);
+            //activarBoton();
             console.log(error);
         }
     })
+}
+
+function editar() {
+    $.ajax({
+        data: $('#form_edicion').serialize(),
+        url: $('#form_edicion').attr('action'),
+        type: $('#form_edicion').attr('method'),
+        success: function (response) {
+            activarBoton();
+            notificacionActualizar(response.mensaje);
+            listadoUsuarios();
+            cerrar_modal();
+        },
+        error: function (error) {
+            mostrarErroresEdicion(error.responseJSON.mensaje);
+            mostrarErrores(error);
+            console.log(error)
+        }
+    });
 }
 
 function activarBoton(){
@@ -112,14 +139,36 @@ function activarBoton(){
 //fin modales
 
 //Inicio errores en los modales
-function mostrarErrores(errores){
-    $('#errores').html("")
-    let error = ""
-    for(let item in errores.responseJSON.error){
-        error += '<div class = "alert alert-danger" <strong>' + errores.responseJSON.error[item] + '</strong></div>';
+function mostrarErrores(errores) {
+    $("div.alert").remove();
+    for(var error in errores.responseJSON.error){
+        $('#form_crear #'+error).after(
+            '<div class="alert alert-danger" role="alert">'+errores.responseJSON.error[error]+'</div>'
+        );
     }
-    $('#errores').append(error);
 }
+
+function mostrarErroresEdicion(errores) {
+    $("div.alert").remove();
+    for(var error in errores.responseJSON.error){
+        $('#form_edicion #'+error).after(
+            '<div class="alert alert-danger" role="alert">'+errores.responseJSON.error[error]+'</div>'
+        );
+    }
+}
+
+/*
+$("#button").on("click", function() {
+	if ($("#boton_creacion").next('p').length) $("input").nextAll('p').empty();
+	for (var name in data) {
+    for (var i in data[name]) {
+      // object message error django
+      var $input = $("input[name='"+ name +"']");
+      $input.after("<p>" + data[name][i].message + "</p>");
+    }
+  }
+});
+*/
 //Fin errores en los modales
 
 //Inicio notificaciones sweet alert
@@ -133,6 +182,14 @@ function notificacionError(mensaje){
 function notificacionCrear(mensaje){
     Swal.fire({
         title:'Registro Creado con exito',
+        text: mensaje,
+        icon:'succes'
+    })
+}
+
+function notificacionActualizar(mensaje){
+    Swal.fire({
+        title:'Registro actualizado con exito',
         text: mensaje,
         icon:'succes'
     })

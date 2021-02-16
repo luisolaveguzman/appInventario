@@ -11,16 +11,10 @@
         </div>
         <div class="modal-body">
             <form id="form_crear" action='/crearUsuario' method="POST">
-                {% for field in form %}
-                <div class="form-group">
-                    <div id="errores"></div>
-                    {{ field.label_tag }}
-                    {{ field }}
-                </div>
-                {% endfor %}
+                {% include "layout/form_snippets.html" %}
                 {% csrf_token %}
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="registrar(listadoUsuarios());"
+                    <button type="button" class="btn btn-success" onclick="registrar();"
                             id="boton_creacion">Guardar
                     </button>
                     <button type="button" class="btn btn-primary" onclick="cerrar_modal();">Cancelar</button>
@@ -33,4 +27,5 @@
 {% block extrajs %}
 <script src="../../static/js/usuarios/usuarios.js"></script>
 <script src="../../static/js/scripts.js"></script>
+
 {% endblock extrajs %}

@@ -77,8 +77,6 @@ class CrearUsuario(CreateView):
     form_class = CreateUserForm
     template_name = 'usuarios/crearUsuario.html'
     success_url = reverse_lazy('usuarios')
-
-
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             form = self.form_class(request.POST)
@@ -105,8 +103,6 @@ class CrearUsuario(CreateView):
                     response = JsonResponse({'mensaje': mensaje, 'error': error})
                     response.status_code = 400
                     return response
-
-
             else:
                 mensaje = f'Error al registrar usuario'
                 error = form.errors
@@ -116,14 +112,28 @@ class CrearUsuario(CreateView):
         else:
             return redirect('/inicio_usuarios')
 
-
-
 class EditarUsuario(UpdateView):
     model = Usuarios
     template_name = 'usuarios/editarUsuario.html'
-    context_object_name = 'formaUsuario'
-    form_class = UsuarioForm # le pasa al template el fomulario, se interpreta en el template como form
-    success_url = reverse_lazy('usuarios')
+    form_class = UsuarioForm
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = self.form_class(request.POST, instance=self.get_object())
+            if form.is_valid():
+                form.save()
+                mensaje = f'Usuario actualizado correctamente'
+                error = 'Sin errores'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 201
+                return response
+            else:
+                mensaje = f'Error al actualizar usuario'
+                error = form.errors
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 400
+                return response
+        else:
+            return redirect('/inicio_usuarios')
 
 class CambiarClave(UpdateView):
     model = Usuarios
@@ -131,11 +141,12 @@ class CambiarClave(UpdateView):
     form_class = FormResetPassword
     success_url = reverse_lazy('usuarios')
 
+class EliminarUsuario(DeleteView):
+    model = Usuarios
+    success_url = reverse_lazy('usuarios')
 
 
 class CambiarEstadoUsuario(DeleteView):
-    model = Usuarios
-
     def post(self, request, pk, *args, **kwargs):
         object = get_object_or_404(Usuarios, id=pk)
         if object.estado == True:
