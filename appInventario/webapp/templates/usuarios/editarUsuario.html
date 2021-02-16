@@ -7,7 +7,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form id="form_edicion" action="/editarUsuario/{{object.pk}}" method="POST">
+            <form id="form_edicion" action="/editarUsuario/{{object.pk}}" method="POST" class="form-horizontal">
                 {% include "layout/form_snippets.html" %}
                 {% csrf_token %}
                 <div class="modal-footer">
@@ -18,8 +18,3 @@
         </div>
     </div>
 </div>
-
-{% block extrajs %}
-<script src="../../static/js/usuarios/usuarios.js"></script>
-<script src="../../static/js/scripts.js"></script>
-{% endblock extrajs %}

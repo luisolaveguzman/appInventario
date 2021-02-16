@@ -20,11 +20,6 @@ class ListUsuarios(View):
     num_usuarios_activos = Usuarios.objects.filter(estado__icontains=True).count()
     num_usuarios_bloqueados = Usuarios.objects.filter(estado__icontains=False).count()
 
-    def paginador(self):
-        paginador = Paginator(self.get_queryset(), 10)
-        page = request.GET.get('page')
-        self.get_queryset = paginador.get_page(page)
-
     def get_queryset(self):
         return self.model.objects.order_by('id')
 
@@ -47,18 +42,6 @@ class ListUsuarios(View):
             return redirect('inicio_usuarios')
 
 
-    def post(self, request, *args, **kwargs):
-        queryset = request.POST.get('buscar')
-        if queryset:
-            queryset = Usuarios.objects.filter(
-            Q(rut__icontains=queryset)|
-            Q(username__icontains=queryset)|
-            Q(nombres__icontains=queryset)|
-            Q(apellidos__icontains=queryset)|
-            Q(correo__icontains=queryset)
-        )
-        else:
-            queryset = Usuarios.objects.order_by('id')
         contexto = {}
         contexto['listUsuarios'] = queryset
         contexto['num_usuarios'] = self.num_usuarios
@@ -66,11 +49,6 @@ class ListUsuarios(View):
         contexto['num_usuarios_bloqueados'] = self.num_usuarios_bloqueados
 
         return render(request, self.template_name, contexto)
-
-    # paginador
-    # paginador = Paginator(usuarios, 10)
-    # page = request.GET.get('page')
-    # usuarios = paginador.get_page(page)
 
 class CrearUsuario(CreateView):
     model = Usuarios
@@ -89,20 +67,13 @@ class CrearUsuario(CreateView):
                     correo = form.cleaned_data.get('correo'),
                     user_administrador = form.cleaned_data.get('user_administrador'),
                 )
-                if validarRut(nuevo_usuario.rut):
-                    nuevo_usuario.set_password(form.cleaned_data.get('password1'))
-                    nuevo_usuario.save()
-                    mensaje = f'Usuario registrado correctamente'
-                    error = 'Sin errores'
-                    response = JsonResponse({'mensaje': mensaje, 'error': error})
-                    response.status_code = 201
-                    return response
-                else:
-                    mensaje = f'Error al registrar usuario'
-                    error = form.errors
-                    response = JsonResponse({'mensaje': mensaje, 'error': error})
-                    response.status_code = 400
-                    return response
+                nuevo_usuario.set_password(form.cleaned_data.get('password1'))
+                nuevo_usuario.save()
+                mensaje = f'Usuario registrado correctamente'
+                error = 'Sin errores'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 201
+                return response
             else:
                 mensaje = f'Error al registrar usuario'
                 error = form.errors
@@ -123,7 +94,7 @@ class EditarUsuario(UpdateView):
                 form.save()
                 mensaje = f'Usuario actualizado correctamente'
                 error = 'Sin errores'
-                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response = JsonResponse({'error': error})
                 response.status_code = 201
                 return response
             else:
@@ -139,7 +110,23 @@ class CambiarClave(UpdateView):
     model = Usuarios
     template_name = 'usuarios/cambiarClave.html'
     form_class = FormResetPassword
-    success_url = reverse_lazy('usuarios')
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = self.form_class(request.POST, instance=self.get_object())
+            if form.is_valid():
+                form.save()
+                mensaje = f'Contraseña actualizada de forma exitosa'
+                response = JsonResponse({'mensaje':mensaje})
+                response.status_code = 201
+                return response
+            else:
+                mensaje = f'Error al actualizar la clave'
+                error = form.errors
+                response = JsonResponse({'mensaje': mensaje, 'error':error})
+                response.status_code = 400
+                return response
+        else:
+            return redirect('/inicio_usuarios')
 
 class EliminarUsuario(DeleteView):
     model = Usuarios

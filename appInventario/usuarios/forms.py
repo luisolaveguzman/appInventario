@@ -103,6 +103,30 @@ class FormResetPassword(UserCreationForm):
             'password2',
         )
         widgets = {
-            'password1': PasswordInput(attrs={'input_type':'password','class':'form-control'}),
-            'password2': PasswordInput(attrs={'input_type': 'password'}),
+            'password1': PasswordInput(attrs={
+                'input_type':'password',
+                'class':'form-control',
+                'id':'password1'
+            }),
+            'password2': PasswordInput(attrs={
+                'input_type': 'password',
+                'class': 'form-control',
+                'id':'password2'
+            }),
         }
+
+
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+        if password1 != password2:
+            raise forms.ValidationError('Ambas contraseñas deben ser iguales')
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
+        return user

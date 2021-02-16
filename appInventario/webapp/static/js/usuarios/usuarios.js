@@ -4,7 +4,7 @@ function listadoUsuarios() {
         url: "/usuarios",
         type: "get",
         dataType: "json",
-        success: function(response){
+        success: function (response) {
             console.log(response);
             if ($.fn.DataTable.isDataTable('#tabla_usuarios')) {
                 $('#tabla_usuarios').DataTable().destroy();
@@ -30,9 +30,9 @@ function listadoUsuarios() {
                     fila += '<td>Usuario</td>';
 
                 fila += '<td class="text-center btn-group-sm">'
-                fila += '<button type="button" class="btn btn-warning" onclick="abrir_modal_editar(\'/editarUsuario/' + response[i]['pk']  + '\');">Editar</button>' + '<span>&nbsp;&nbsp;</span>'
-                fila += '<button type="button" class="btn btn-danger">Bloquear</button>' + '<span>&nbsp;&nbsp;</span>'
-                fila += '<button type="button" class="btn btn-info">Password</button></td>';
+                fila += '<button type="button" class="btn btn-warning" onclick="abrir_modal_editar(\'/editarUsuario/' + response[i]['pk'] + '\');">Editar</button>' + '<span>&nbsp;&nbsp;</span>'
+                fila += '<button type="button" class="btn btn-danger">Eliminar</button>' + '<span>&nbsp;&nbsp;</span>'
+                fila += '<button type="button" class="btn btn-info" onclick="abrir_modal_password(\'/cambiarClave/' + response[i]['pk'] + '\')">Password</button></td>';
                 fila += '</tr>';
                 $('#tabla_usuarios tbody').append(fila)
             }
@@ -79,11 +79,17 @@ function abrir_modal_crearUsuario(url) {
     });
 }
 
-function abrir_modal_editar(url){
+function abrir_modal_editar(url) {
     $('#ventanaModal').load(url, function () {
         $(this).modal('show');
     });
 }
+
+function abrir_modal_password(url){
+        $('#ventanaModal').load(url, function (){
+            $(this).modal('show');
+        });
+    }
 
 function cerrar_modal() {
     $('#ventanaModal').modal('hide');
@@ -97,8 +103,8 @@ function registrar() {
         type: $('#form_crear').attr('method'),
         success: function (response) {
             activarBoton();
-            notificacionCrear(response.mensaje);            
-            listadoUsuarios();            
+            notificacionCrear(response.mensaje);
+            listadoUsuarios();
             cerrar_modal();
         },
         error: function (error) {
@@ -122,40 +128,54 @@ function editar() {
             cerrar_modal();
         },
         error: function (error) {
-            mostrarErroresEdicion(error.responseJSON.mensaje);
-            mostrarErrores(error);
-            console.log(error)
+            console.log(error);
         }
     });
 }
 
-function activarBoton(){
-    if($('#boton_creacion').prop('disabled')){
+function cambiar_password() {
+    $.ajax({
+        data: $('#form_reset_password').serialize(),
+        url: $('#form_reset_password').attr('action'),
+        type: $('#form_reset_password').attr('method'),
+        success: function (response) {
+            activarBoton();
+            notificacionActualizar(response.mensaje)
+            listadoUsuarios();
+            cerrar_modal();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function activarBoton() {
+    if ($('#boton_creacion').prop('disabled')) {
         $('#boton_creacion').prop('disabled', false);
-    }else{
+    } else {
         $('#boton_creacion').prop('disabled', true);
     }
 }
+
 //fin modales
 
-//Inicio errores en los modales
+/*Inicio errores en los modales
 function mostrarErrores(errores) {
-    $("div.alert").remove();
-    for(var error in errores.responseJSON.error){
-        $('#form_crear #'+error).after(
-            '<div class="alert alert-danger" role="alert">'+errores.responseJSON.error[error]+'</div>'
-        );
+    $("div.help-block").remove();
+    for (var error in errores.responseJSON.error) {
+        $('#form_crear #' + error).addClass('is-invalid').append(errores.responseJSON.error[error]);
+        console.log(error)
     }
-}
-
+}*/
+/*
 function mostrarErroresEdicion(errores) {
-    $("div.alert").remove();
-    for(var error in errores.responseJSON.error){
-        $('#form_edicion #'+error).after(
-            '<div class="alert alert-danger" role="alert">'+errores.responseJSON.error[error]+'</div>'
-        );
+    $("div.help-block").remove();
+    for (var error in errores.responseJSON.error) {
+        $('#form_edicion #' + error).addClass('is-invalid');
+        $('#form_edicion #' + error).append('<div class="help-block">' + errores.responseJSON.error[error] + '</div>');
     }
-}
+}*/
 
 /*
 $("#button").on("click", function() {
@@ -172,27 +192,37 @@ $("#button").on("click", function() {
 //Fin errores en los modales
 
 //Inicio notificaciones sweet alert
-function notificacionError(mensaje){
+function notificacionError(mensaje) {
     Swal.fire({
-        title:'Error',
+        title: 'Error',
         text: mensaje,
-        icon:'error'
-    })
-}
-function notificacionCrear(mensaje){
-    Swal.fire({
-        title:'Registro Creado con exito',
-        text: mensaje,
-        icon:'succes'
+        icon: 'error'
     })
 }
 
-function notificacionActualizar(mensaje){
+function notificacionCrear(mensaje) {
     Swal.fire({
-        title:'Registro actualizado con exito',
+        title: 'Registro Creado con exito',
         text: mensaje,
-        icon:'succes'
+        icon: 'success'
     })
 }
+
+function notificacionActualizar(mensaje) {
+    Swal.fire({
+        title: 'Registro actualizado con exito',
+        text: mensaje,
+        icon: 'success'
+    })
+}
+
+function notificacionActualizarClave(mensaje) {
+    Swal.fire({
+        title: 'Clave actualizada con exito',
+        text: mensaje,
+        icon: 'success'
+    })
+}
+
 
 //Fin notificaciones Sweet alert
